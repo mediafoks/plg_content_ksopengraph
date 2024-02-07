@@ -28,6 +28,6 @@
         </fields>
     </config>
     <updateservers>
-        <server type="extension" priority="1" name="KS Open Graph Content Plugin">https://github.com/mediafoks/plg_content_ksopengraph/blob/main/ksopengraph.xml</server>
+        <server type="extension" priority="1" name="KS Open Graph Content Plugin">https://github.com/mediafoks/plg_content_ksopengraph/blob/main/update.xml</server>
     </updateservers>
 </extension>
