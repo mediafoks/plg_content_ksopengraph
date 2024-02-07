@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.0.0
+ * @version    1.0.2
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -108,11 +108,6 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
         }
     }
 
-    public function findFirstImage($item)
-    {
-        $fulltext = $item->$fulltext;
-    }
-
     public function onContentAfterDisplay(AfterDisplayEvent $event): void
     {
         $app = Factory::getApplication();
@@ -121,7 +116,6 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
         $view = $app->input->get('view'); // article, category, featured
 
         if (!$app->isClient('site')) return; // если это не фронтэнд, то прекращаем работу
-        if ($view == 'contact') return;
         if ((int)$this->pluginNr > 0) return; // Second instance in featured view or category view
 
         $thisTitle = '';
@@ -168,6 +162,11 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             } else {
                 $thisImage = $image_default;
             }
+            $this->pluginNr = 1;
+        } elseif ($view == 'contact' && $this->pluginNr == 0) {
+            $thisTitle = $event->getItem()->name;
+            $thisDescription = $event->getItem()->con_position;
+            $thisImage = $event->getItem()->image;
             $this->pluginNr = 1;
         } else {
             $article_page_title = $event->getItem()->params['article_page_title'];
