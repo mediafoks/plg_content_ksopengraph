@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="5.0" type="plugin" group="content" method="upgrade">
+    <name>KS Open Graph Content Plugin</name>
+    <author>Sergey Kuznetsov</author>
+    <creationDate>Jan 2024</creationDate>
+    <copyright>Copyright (C) 2024 Sergey Kuznetsov</copyright>
+    <license>MIT</license>
+    <authorEmail>mediafoks@google.com</authorEmail>
+    <version>1.0.1</version>
+    <description>PLG_CONTENT_KS_OPEN_GRAPH_XML_DESCRIPTION</description>
+    <files>
+        <filename plugin="ksopengraph">ksopengraph.php</filename>
+        <folder>language</folder>
+    </files>
+    <languages folder="language">
+        <language tag="en-GB">en-GB/en-GB.plg_content_ksopengraph.sys.ini</language>
+        <language tag="en-GB">en-GB/en-GB.plg_content_ksopengraph.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="article" label="PLG_CONTENT_KS_OPEN_GRAPH_OPTIONS">
+                <field type="media" name="image_default" default="" label="PLG_CONTENT_KS_OPEN_GRAPH_IMAGE_DEFAULT_LABEL" description="PLG_CONTENT_KS_OPEN_GRAPH_IMAGE_DEFAULT_DESC"/>
+                <field name="twitter_enable" type="list" default="0" label="PLG_CONTENT_KS_OPEN_GRAPH_ENABLE_TWEETS_WITH_CARDS_LABEL" description="PLG_CONTENT_KS_OPEN_GRAPH_ENABLE_TWEETS_WITH_CARDS_DESC">
+                    <option value="1">PLG_CONTENT_KS_OPEN_GRAPH_YES</option>
+                    <option value="0">PLG_CONTENT_KS_OPEN_GRAPH_NO</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
