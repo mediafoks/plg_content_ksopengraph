@@ -122,7 +122,7 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
         $thisDescription = '';
         $thisImage = '';
         $thisOgType = Uri::current() != Uri::base() ? 'article' : 'website';
-        $image_default = $this->params->get('image_default');
+        $thisImageDefault = $this->params->get('image_default');
 
         $this->twitterEnable = $this->params->get('twitter_enable', 0);
         if ($this->twitterEnable == 1) {
@@ -134,7 +134,7 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             $thisTitle = $document->title;
             $menu_metasesc = $app->getParams()->get('menu-meta_description');
             $thisDescription = $menu_metasesc != '' ? $menu_metasesc : $document->description;
-            $thisImage = $image_default;
+            $thisImage = $thisImageDefault;
             $this->pluginNr = 1;
         } elseif ($view == 'category' && $this->pluginNr == 0) {
             $thisTitle = $document->title;
@@ -145,7 +145,7 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             $thisDescription = $category->metadesc != '' ? $category->metadesc : $document->description;
 
             $image = json_decode($category->params)->image;
-            $image != '' ? $thisImage = $image : $thisImage = $image_default;
+            $image != '' ? $thisImage = $image : $thisImage = $thisImageDefault;
             $this->pluginNr = 1;
         } elseif ($view == 'tag' && $this->pluginNr == 0) {
             $model_tag = $app->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Site', ['ignore_request' => false]);
@@ -160,7 +160,7 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             } elseif ($images->image_fulltext != '') {
                 $thisImage = $images->image_fulltext;
             } else {
-                $thisImage = $image_default;
+                $thisImage = $thisImageDefault;
             }
             $this->pluginNr = 1;
         } elseif ($view == 'contact' && $this->pluginNr == 0) {
@@ -188,7 +188,7 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             } elseif ($images->image_fulltext != '') {
                 $thisImage = $images->image_fulltext;
             } else {
-                $thisImage = $image_default;
+                $thisImage = $thisImageDefault;
             }
             $this->pluginNr = 1;
         }
