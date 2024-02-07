@@ -6,7 +6,7 @@
     <copyright>Copyright (C) 2024 Sergey Kuznetsov</copyright>
     <license>MIT</license>
     <authorEmail>mediafoks@google.com</authorEmail>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <description>PLG_CONTENT_KS_OPEN_GRAPH_XML_DESCRIPTION</description>
     <files>
         <filename plugin="ksopengraph">ksopengraph.php</filename>
