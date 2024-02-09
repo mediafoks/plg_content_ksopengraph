@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.0.7
+ * @version    1.0.8
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -137,11 +137,11 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             $thisImage = $thisImageDefault;
             $this->pluginNr = 1;
         } elseif ($view == 'category' && $this->pluginNr == 0) {
-            $thisTitle = $document->title;
 
             $model_category = $app->bootComponent('com_content')->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => false]);
             $category = $model_category->getCategory();
 
+            $thisTitle = $category->title != '' ? $category->title : $document->title;
             $thisDescription = isset($category->metadesc) && $category->metadesc != '' ? $category->metadesc : $document->description;
 
             $image = json_decode($category->params)->image;
