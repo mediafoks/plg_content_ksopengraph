@@ -22,8 +22,8 @@
     <config>
         <fields name="params">
             <fieldset name="article" label="PLG_CONTENT_KS_OPEN_GRAPH_OPTIONS">
-                <field type="media" name="image_default" default="" label="PLG_CONTENT_KS_OPEN_GRAPH_IMAGE_DEFAULT_LABEL" description="PLG_CONTENT_KS_OPEN_GRAPH_IMAGE_DEFAULT_DESC"/>
-                <field name="twitter_enable" type="radio" default="0" label="PLG_CONTENT_KS_OPEN_GRAPH_ENABLE_TWEETS_WITH_CARDS_LABEL" description="PLG_CONTENT_KS_OPEN_GRAPH_ENABLE_TWEETS_WITH_CARDS_DESC">
+                <field name="image_default" type="media" default="" label="PLG_CONTENT_KS_OPEN_GRAPH_IMAGE_DEFAULT_LABEL" description="PLG_CONTENT_KS_OPEN_GRAPH_IMAGE_DEFAULT_DESC"/>
+                <field name="twitter_enable" type="radio" default="0" label="PLG_CONTENT_KS_OPEN_GRAPH_ENABLE_TWEETS_WITH_CARDS_LABEL" description="PLG_CONTENT_KS_OPEN_GRAPH_ENABLE_TWEETS_WITH_CARDS_DESC" class="btn-group btn-group-yesno">
                     <option value="1">JYES</option>
                     <option value="0">JNO</option>
                 </field>
