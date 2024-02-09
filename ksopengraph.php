@@ -142,7 +142,14 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             $category = $model_category->getCategory();
 
             $thisTitle = $category->title != '' ? $category->title : $document->title;
-            $thisDescription = isset($category->metadesc) && $category->metadesc != '' ? $category->metadesc : $document->description;
+
+            if ($app->input->get('option') == 'com_contact') {
+                $model_contact_category = $app->bootComponent('com_contact')->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => false]);
+                $contactCategory = $model_contact_category->getCategory();
+                $thisDescription = isset($contactCategory->metadesc) && $contactCategory->metadesc != '' ? $contactCategory->metadesc : $document->description;
+            } else {
+                $thisDescription = isset($category->metadesc) && $category->metadesc != '' ? $category->metadesc : $document->description;
+            }
 
             $image = json_decode($category->params)->image;
             $thisImage = $image != '' ? $image : $thisImageDefault;
