@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.0.6
+ * @version    1.0.7
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -133,7 +133,7 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
         if ($view == 'featured' && $this->pluginNr == 0) {
             $thisTitle = $document->title;
             $menu_metasesc = $app->getParams()->get('menu-meta_description');
-            $thisDescription = $menu_metasesc != '' ? $menu_metasesc : $document->description;
+            $thisDescription = isset($menu_metasesc) && $menu_metasesc != '' ? $menu_metasesc : $document->description;
             $thisImage = $thisImageDefault;
             $this->pluginNr = 1;
         } elseif ($view == 'category' && $this->pluginNr == 0) {
@@ -142,17 +142,18 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             $model_category = $app->bootComponent('com_content')->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => false]);
             $category = $model_category->getCategory();
 
-            $thisDescription = $category->metadesc != '' ? $category->metadesc : $document->description;
+            $thisDescription = isset($category->metadesc) && $category->metadesc != '' ? $category->metadesc : $document->description;
 
             $image = json_decode($category->params)->image;
-            $image != '' ? $thisImage = $image : $thisImage = $thisImageDefault;
+            $thisImage = $image != '' ? $image : $thisImageDefault;
             $this->pluginNr = 1;
         } elseif ($view == 'tag' && $this->pluginNr == 0) {
             $model_tag = $app->bootComponent('com_tags')->getMVCFactory()->createModel('Tag', 'Site', ['ignore_request' => false]);
             $tag = $model_tag->getItem()[0];
             $tag_title = $tag->title;
             $thisTitle = $tag_title != '' ? $tag_title : $document->title;
-            $thisDescription = $document->description;
+
+            $thisDescription = isset($tag->metadesc) && $tag->metadesc != '' ? $tag->metadesc : $document->description;
             $images = json_decode($event->getItem()->core_images);
 
             if ($images->image_intro != '') {
@@ -170,17 +171,21 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
             $this->pluginNr = 1;
         } else {
             $article_page_title = $event->getItem()->params['article_page_title'];
+            $menu_metasesc = $app->getParams()->get('menu-meta_description');
             $metadesc = $event->getItem()->metadesc;
             $introtext = $event->getItem()->introtext;
+            $fulltext = $event->getItem()->fulltext;
             $images = json_decode($event->getItem()->images);
-            $article_page_title != '' ? $thisTitle = $article_page_title : $thisTitle = $event->getItem()->title;
+            $thisTitle = $article_page_title != '' ? $article_page_title : $event->getItem()->title;
 
-            if ($metadesc != '') {
+            if (isset($menu_metasesc) && $menu_metasesc != '') {
+                $thisDescription = $menu_metasesc;
+            } elseif ($metadesc != '') {
                 $thisDescription = $metadesc;
             } elseif ($introtext != '') {
                 $thisDescription = $introtext;
             } else {
-                $thisDescription = $document->description;
+                $thisDescription = $fulltext;
             }
 
             if ($images->image_intro != '') {
@@ -195,7 +200,7 @@ class PlgContentKsOpenGraph extends CMSPlugin implements SubscriberInterface
 
         $this->renderTag('og:site_name', $config->get('sitename'), $type);
         $this->renderTag('og:title', $thisTitle, $type);
-        $this->renderTag('og:description', mb_strimwidth(strip_tags($thisDescription), 0, 300, " ..."), $type);
+        $this->renderTag('og:description', mb_strimwidth(strip_tags($thisDescription), 0, 300, "..."), $type);
         $this->renderTag('og:url', Uri::current(), $type);
         $this->renderTag('og:image', $this->setImage($this->realCleanImageURL($thisImage)), $type);
         $this->renderTag('og:type', $thisOgType, $type);
