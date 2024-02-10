@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.1.1
+ * @version    1.1.2
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -114,7 +114,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
     public function onContentAfterDisplay(AfterDisplayEvent $event): void
     {
         $app = $this->getApplication();
-        $config = $this->getConfig();
+        $config = Factory::getConfig();
         $document = $app->getDocument();
         $view = $app->input->get('view'); // article, category, featured
 
