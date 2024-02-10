@@ -5,9 +5,9 @@
         <element>ksopengraph</element>
         <type>plugin</type>
         <folder>content</folder>
-        <version>1.1.0</version>
+        <version>1.1.1</version>
         <downloads>
-            <downloadurl type="full" format="zip">https://github.com/mediafoks/plg_content_ksopengraph/archive/refs/tags/ksopengraph_v1.1.0_j5.zip</downloadurl>
+            <downloadurl type="full" format="zip">https://github.com/mediafoks/plg_content_ksopengraph/archive/refs/tags/ksopengraph_v1.1.1_j5.zip</downloadurl>
         </downloads>
         <tags>
             <tag>stable</tag>
