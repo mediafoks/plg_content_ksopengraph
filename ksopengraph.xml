@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="5.0" type="plugin" group="content" method="upgrade">
+<extension version="5.0" type="plugin" group="content">
     <name>KS Open Graph Content Plugin</name>
     <author>Sergey Kuznetsov</author>
     <creationDate>Feb 2024</creationDate>
     <copyright>Copyright (C) 2024 Sergey Kuznetsov</copyright>
     <license>MIT</license>
     <authorEmail>mediafoks@google.com</authorEmail>
-    <version>1.0.9</version>
+    <version>1.1.0</version>
     <description>PLG_CONTENT_KS_OPEN_GRAPH_XML_DESCRIPTION</description>
+    <namespace path="src">Joomla\Plugin\Content\KsOpenGraph</namespace>
     <files>
-        <filename plugin="ksopengraph">ksopengraph.php</filename>
-        <filename>index.html</filename>
+        <folder plugin="ksopengraph">services</folder>
+        <folder>src</folder>
         <folder>language</folder>
     </files>
     <languages folder="language">
-        <language tag="en-GB">en-GB/en-GB.plg_content_ksopengraph.sys.ini</language>
-        <language tag="en-GB">en-GB/en-GB.plg_content_ksopengraph.ini</language>
-        <language tag="ru-RU">ru-RU/ru-RU.plg_content_ksopengraph.sys.ini</language>
-        <language tag="ru-RU">ru-RU/ru-RU.plg_content_ksopengraph.ini</language>
+        <language tag="en-GB">en-GB/plg_content_ksopengraph.sys.ini</language>
+        <language tag="en-GB">en-GB/plg_content_ksopengraph.ini</language>
+        <language tag="ru-RU">ru-RU/plg_content_ksopengraph.sys.ini</language>
+        <language tag="ru-RU">ru-RU/plg_content_ksopengraph.ini</language>
     </languages>
     <config>
         <fields name="params">
