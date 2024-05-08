@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="5.0" type="plugin" group="content">
+<extension version="5.0" type="plugin" group="content" method="upgrade">
     <name>KS Open Graph Content Plugin</name>
     <author>Sergey Kuznetsov</author>
     <creationDate>Feb 2024</creationDate>
