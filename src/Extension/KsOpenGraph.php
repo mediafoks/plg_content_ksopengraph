@@ -217,7 +217,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
 
         $this->renderTag('og:site_name', $config->get('sitename'), $type);
         $this->renderTag('og:title', $thisTitle, $type);
-        $this->renderTag('og:description', catDescription($thisDescription, 300), $type);
+        $this->renderTag('og:description', $this->catDescription($thisDescription, 300), $type);
         $this->renderTag('og:url', Uri::current(), $type);
         $this->renderTag('og:image', $this->setImage($this->realCleanImageURL($thisImage)), $type);
         $this->renderTag('og:type', $thisOgType, $type);
