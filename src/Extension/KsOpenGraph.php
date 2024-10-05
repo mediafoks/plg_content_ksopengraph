@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.1.5
+ * @version    1.1.6
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
