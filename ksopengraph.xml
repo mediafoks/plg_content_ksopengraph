@@ -6,7 +6,7 @@
     <copyright>Copyright (C) 2024 Sergey Kuznetsov</copyright>
     <license>MIT</license>
     <authorEmail>mediafoks@google.com</authorEmail>
-    <version>1.1.6</version>
+    <version>1.1.7</version>
     <description>PLG_CONTENT_KS_OPEN_GRAPH_XML_DESCRIPTION</description>
     <namespace path="src">Joomla\Plugin\Content\KsOpenGraph</namespace>
     <files>

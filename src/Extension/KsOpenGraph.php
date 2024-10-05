@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.1.6
+ * @version    1.1.4
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -111,13 +111,6 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
         }
     }
 
-    public function catDescription($str, $length)
-    {
-        $str_clear_tags = strip_tags($str);
-        $new_str = substr($str_clear_tags, 0, strpos($str_clear_tags, " ", $length) ?: $length);
-        return (strlen($new_str) > $length) ? $new_str . "..." : $new_str;
-    }
-
     public function onContentAfterDisplay(AfterDisplayEvent $event): void
     {
         $app = $this->getApplication();
@@ -217,7 +210,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
 
         $this->renderTag('og:site_name', $config->get('sitename'), $type);
         $this->renderTag('og:title', $thisTitle, $type);
-        $this->renderTag('og:description', $this->catDescription($thisDescription, 300), $type);
+        $this->renderTag('og:description', mb_strimwidth(strip_tags($thisDescription), 0, 300, "..."), $type);
         $this->renderTag('og:url', Uri::current(), $type);
         $this->renderTag('og:image', $this->setImage($this->realCleanImageURL($thisImage)), $type);
         $this->renderTag('og:type', $thisOgType, $type);
