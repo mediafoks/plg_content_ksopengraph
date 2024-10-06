@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    1.1.4
+ * @version    1.2.0
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -79,6 +79,22 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
         }
 
         return $linkImg;
+    }
+
+    public function catStr($str, $length = 300)
+    {
+        $str_clean = trim(strip_tags($str)); // удаляем HTML символы и пробелы в начале и конце строки
+
+        if (mb_strlen($str_clean, 'utf-8') <= $length) {
+            return $str_clean;
+        } else {
+            $str_cat = mb_substr($str_clean, 0, $length, 'utf-8'); // обрезаем строку до нужной длины
+            $space_pos = mb_strrpos($str_cat, ' ', 0, 'utf-8'); // находим позицию последнего пробела
+            $str_cat_space = mb_substr($str_cat, 0, $space_pos, 'utf-8'); // обрезаем строку до пробела
+            $new_str = $str_cat_space . '...'; // добавляем троеточие в конец строки
+
+            return $new_str;
+        }
     }
 
     public function renderTag($name, $value, $type = 1)
@@ -210,7 +226,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
 
         $this->renderTag('og:site_name', $config->get('sitename'), $type);
         $this->renderTag('og:title', $thisTitle, $type);
-        $this->renderTag('og:description', mb_strimwidth(strip_tags($thisDescription), 0, 300, "..."), $type);
+        $this->renderTag('og:description', $this->catStr($thisDescription), $type);
         $this->renderTag('og:url', Uri::current(), $type);
         $this->renderTag('og:image', $this->setImage($this->realCleanImageURL($thisImage)), $type);
         $this->renderTag('og:type', $thisOgType, $type);
