@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    2.0.0
+ * @version    1.2.1
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -18,7 +18,7 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Uri\Uri;
 use Joomla\CMS\Plugin\CMSPlugin;
 use Joomla\Event\SubscriberInterface;
-use Joomla\CMS\Event\Content\ContentPrepareEvent;
+use Joomla\CMS\Event\Content\AfterDisplayEvent;
 
 final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
 {
@@ -31,7 +31,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            'onContentPrepare' => 'onContentPrepare',
+            'onContentAfterDisplay' => 'onContentAfterDisplay',
         ];
     }
 
@@ -127,7 +127,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
         }
     }
 
-    public function onContentPrepare(ContentPrepareEvent $event): void
+    public function onContentAfterDisplay(AfterDisplayEvent $event): void
     {
         $app = $this->getApplication();
         $config = Factory::getConfig();
@@ -155,7 +155,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
             $thisDescription = isset($menu_metasesc) && $menu_metasesc != '' ? $menu_metasesc : $document->description;
             $thisImage = $thisImageDefault;
             $this->pluginNr = 1;
-        } elseif ($view == 'category' || $view == 'categories' && $this->pluginNr == 0) {
+        } elseif ($view == 'category' && $this->pluginNr == 0) {
 
             $model_category = $app->bootComponent('com_content')->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => false]);
             $category = $model_category->getCategory();
