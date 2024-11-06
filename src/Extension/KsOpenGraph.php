@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    2.0.1
+ * @version    2.1.0
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -26,8 +26,6 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
     protected $allowLegacyListeners = false;
 
     public $pluginNr = 0;
-    public $twitterEnable = 0;
-    public $type = 1;
 
     public static function getSubscribedEvents(): array
     {
@@ -40,9 +38,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
     {
 
         $imgClean = HTMLHelper::cleanImageURL($img);
-        if ($imgClean->url != '') {
-            $img =  $imgClean->url;
-        }
+        if ($imgClean->url != '') $img =  $imgClean->url;
         return $img;
     }
 
@@ -98,34 +94,13 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
         }
     }
 
-    public function renderTag($name, $value, $type = 1)
+    public function renderTag($name, $value, $attr = 'name')
     {
         $app = $this->getApplication();
         $document = $app->getDocument();
-
         $value = strip_tags(html_entity_decode($value));
 
-        // OG
-        if ($type == 1) {
-            $document->setMetadata(htmlspecialchars($name, ENT_COMPAT, 'UTF-8'), htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
-        } else {
-            $attributes = '';
-            if ($name == 'og:image') $attributes = ' itemprop="image"';
-            $document->addCustomTag('<meta property="' . htmlspecialchars($name, ENT_COMPAT, 'UTF-8') . '"' . $attributes . ' content="' . htmlspecialchars($value, ENT_COMPAT, 'UTF-8') . '" />');
-        }
-
-        // Tweet with cards
-        if ($this->twitterEnable == 1) {
-            if ($name == 'og:title') {
-                $document->setMetadata('twitter:title', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
-            }
-            if ($name == 'og:description') {
-                $document->setMetadata('twitter:description', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
-            }
-            if ($name == 'og:image') {
-                $document->setMetadata('twitter:image', htmlspecialchars($value, ENT_COMPAT, 'UTF-8'));
-            }
-        }
+        $document->setMetadata(htmlspecialchars($name, ENT_COMPAT, 'UTF-8'), htmlspecialchars($value, ENT_COMPAT, 'UTF-8'), $attr);
     }
 
     public function onContentPrepare(ContentPrepareEvent $event): void
@@ -135,20 +110,16 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
         $document = $app->getDocument();
         $view = $app->input->get('view'); // article, category, featured
 
-        if (!$app->isClient('site')) return; // если это не фронтэнд, то прекращаем работу
-        if ((int)$this->pluginNr > 0) return; // Second instance in featured view or category view
+        if (!$app->isClient('site') || (int)$this->pluginNr > 0) return; // если это не фронтэнд, то прекращаем работу
 
+        $thisSiteName = $config->get('sitename');
         $thisTitle = '';
         $thisDescription = '';
         $thisImage = '';
         $thisOgType = Uri::current() != Uri::base() ? 'article' : 'website';
         $thisImageDefault = $this->params->get('image_default');
+        $twitterEnable = (int) $this->params->get('twitter_enable');
 
-        $this->twitterEnable = $this->params->get('twitter_enable', 0);
-        if ($this->twitterEnable == 1) {
-            $this->renderTag('twitter:card', 'summary_large_image', 1);
-            $this->renderTag('twitter:site', $config->get('sitename'), 1);
-        }
 
         if ($view == 'featured' && $this->pluginNr == 0) {
             $thisTitle = $document->title;
@@ -225,11 +196,19 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
             $this->pluginNr = 1;
         } else return;
 
-        $this->renderTag('og:site_name', $config->get('sitename'), $this->type);
-        $this->renderTag('og:title', $thisTitle, $this->type);
-        $this->renderTag('og:description', $this->catStr($thisDescription), $this->type);
-        $this->renderTag('og:url', Uri::current(), $this->type);
-        $this->renderTag('og:image', $this->setImage($this->realCleanImageURL($thisImage)), $this->type);
-        $this->renderTag('og:type', $thisOgType, $this->type);
+        $this->renderTag('og:site_name', $thisSiteName, 'property');
+        $this->renderTag('og:title', $thisTitle, 'property');
+        $this->renderTag('og:description', $this->catStr($thisDescription), 'property');
+        $this->renderTag('og:url', Uri::current(), 'property');
+        $this->renderTag('og:image', $this->setImage($this->realCleanImageURL($thisImage)), 'property');
+        $this->renderTag('og:type', $thisOgType, 'property');
+
+        if ($twitterEnable == 1) {
+            $this->renderTag('twitter:card', 'summary_large_image');
+            $this->renderTag('twitter:site', $thisSiteName);
+            $this->renderTag('twitter:title', $thisTitle);
+            $this->renderTag('twitter:description', $this->catStr($thisDescription));
+            $this->renderTag('twitter:image', $this->setImage($this->realCleanImageURL($thisImage)));
+        }
     }
 }
