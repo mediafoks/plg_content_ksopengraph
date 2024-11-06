@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    2.0.0
+ * @version    2.0.1
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -27,6 +27,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
 
     public $pluginNr = 0;
     public $twitterEnable = 0;
+    public $type = 1;
 
     public static function getSubscribedEvents(): array
     {
@@ -224,11 +225,11 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
             $this->pluginNr = 1;
         } else return;
 
-        $this->renderTag('og:site_name', $config->get('sitename'), $type);
-        $this->renderTag('og:title', $thisTitle, $type);
-        $this->renderTag('og:description', $this->catStr($thisDescription), $type);
-        $this->renderTag('og:url', Uri::current(), $type);
-        $this->renderTag('og:image', $this->setImage($this->realCleanImageURL($thisImage)), $type);
-        $this->renderTag('og:type', $thisOgType, $type);
+        $this->renderTag('og:site_name', $config->get('sitename'), $this->type);
+        $this->renderTag('og:title', $thisTitle, $this->type);
+        $this->renderTag('og:description', $this->catStr($thisDescription), $this->type);
+        $this->renderTag('og:url', Uri::current(), $this->type);
+        $this->renderTag('og:image', $this->setImage($this->realCleanImageURL($thisImage)), $this->type);
+        $this->renderTag('og:type', $thisOgType, $this->type);
     }
 }
