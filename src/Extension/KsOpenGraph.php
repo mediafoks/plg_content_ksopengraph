@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    2.1.0
+ * @version    2.1.1
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -167,7 +167,7 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
             $thisDescription = $event->getItem()->con_position;
             $thisImage = $event->getItem()->image;
             $this->pluginNr = 1;
-        } elseif ($view == 'article' && $this->pluginNr == 0) {
+        } elseif ($view == 'article' && $event->getItem()->id && $this->pluginNr == 0) {
             $article_page_title = $event->getItem()->params['article_page_title'];
             $menu_metasesc = $app->getParams()->get('menu-meta_description');
             $metadesc = $event->getItem()->metadesc;
