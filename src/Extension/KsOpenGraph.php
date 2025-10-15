@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    2.1.1
+ * @version    2.2.0
  * @package    ksopengraph (plugin)
  * @author     Sergey Kuznetsov - mediafoks@google.com
  * @copyright  Copyright (c) 2024 Sergey Kuznetsov
@@ -130,13 +130,13 @@ final class KsOpenGraph extends CMSPlugin implements SubscriberInterface
         } elseif (($view == 'category' || $view == 'categories') && $this->pluginNr == 0) {
 
             $model_category = $app->bootComponent('com_content')->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => false]);
-            $category = $model_category->getCategory();
+            $category = $model_category->getItems();
 
             $thisTitle = $category->title != '' ? $category->title : $document->title;
 
             if ($app->input->get('option') == 'com_contact') {
                 $model_contact_category = $app->bootComponent('com_contact')->getMVCFactory()->createModel('Category', 'Site', ['ignore_request' => false]);
-                $contactCategory = $model_contact_category->getCategory();
+                $contactCategory = $model_contact_category->getItems();
                 $thisDescription = isset($contactCategory->metadesc) && $contactCategory->metadesc != '' ? $contactCategory->metadesc : $document->description;
             } else {
                 $thisDescription = isset($category->metadesc) && $category->metadesc != '' ? $category->metadesc : $document->description;
